@@ -29,24 +29,6 @@ Quantities can **only** change through the `record_movement` and `set_item_quant
 change is logged. Row-level security keeps each org's data separate. Students can see their shop's inventory and their own
 team's history, but not other teams' logs or any join codes.
 
-## Setup
-
-1. **Supabase**: create a project and run `supabase/migrations/20260926000000_init.sql` (SQL editor, or `supabase db push`).
-   - Auth → URL Configuration: set **Site URL** to your Vercel URL and add `https://YOUR-APP.vercel.app/auth/callback`
-     (and `http://localhost:3000/auth/callback`) to **Redirect URLs**.
-   - Supabase's built-in email sender is rate-limited (a few emails/hour). Before onboarding students, set up
-     custom SMTP (Auth → SMTP; Resend works) or turn off "Confirm email".
-2. **Env**: `cp .env.example .env.local` and fill it in.
-3. **Catalog**: `npm install && npm run catalog:sync` (takes ~15 minutes, mostly goBILDA's ~2,400 product pages).
-   Re-run whenever you want fresh prices / new parts.
-   - **Studica** blocks automated access, so export or assemble a CSV with `name,sku,url,price,image_url` columns
-     and run `npm run catalog:import-csv -- Studica ./studica.csv`. Admins can also add any part by hand
-     ("Add parts → Custom part").
-4. **Run**: `npm run dev`, then open http://localhost:3000.
-5. **Deploy**: import the repo in Vercel, add the same env vars (with `NEXT_PUBLIC_SITE_URL` = production URL), deploy.
-   `vercel.json` schedules a daily retry of any low-stock emails that failed.
-
-## First run
 
 1. Sign up → **Create organization**. You're the admin; your email is the first alert recipient.
 2. **Teams** → add your 6 teams. Each shows a join code.
